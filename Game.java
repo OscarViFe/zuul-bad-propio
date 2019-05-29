@@ -34,23 +34,25 @@ public class Game
      */
     private void createRooms()
     {
-        Room outside, theater, pub, lab, office;
+        Room salaInicial, salaMaterialLaboratorio, salaTanquePrincipal, salaOrdenadores, salaContencionPequeña;
       
         // create the rooms
-        outside = new Room("outside the main entrance of the university");
-        theater = new Room("in a lecture theater");
-        pub = new Room("in the campus pub");
-        lab = new Room("in a computing lab");
-        office = new Room("in the computing admin office");
+        salaInicial = new Room("completamente vacia, en silencio, lo unico que ves es una luz de emergencia indicando que algo ha sucedido");
+        salaMaterialLaboratorio = new Room("con material de laboratorio con cristales rotos por todas " + 
+        "partes y unas muestras de color rosado en una estanteria de cristal");
+        salaTanquePrincipal = new Room("con un tanque enorme roto cuyos cristales de gran grosor rotos estan esparcidos por el suelo ");
+        salaOrdenadores = new Room("llena de ordenadores, uno de ellos esta encendido y pone" + 
+        " 'Dia 42: Esto esta fuera del limite de nuestra comprension, vamos a morir todos'");
+        salaContencionPequeña = new Room("amplia con tanques de contencion del tamaño de una persona abiertos sin visibilidad de haber sido forzados");
         
         // initialise room exits
-        outside.setExits(null, theater, lab, pub);
-        theater.setExits(null, null, null, outside);
-        pub.setExits(null, outside, null, null);
-        lab.setExits(outside, office, null, null);
-        office.setExits(null, null, null, lab);
+        salaInicial.setExits(salaMaterialLaboratorio, salaOrdenadores, null, null);
+        salaMaterialLaboratorio.setExits(null, salaTanquePrincipal, salaInicial, null);
+        salaTanquePrincipal.setExits(null, salaContencionPequeña, salaOrdenadores, salaMaterialLaboratorio);
+        salaOrdenadores.setExits(salaTanquePrincipal, salaInicial, null, null);
+        salaContencionPequeña.setExits(null, null, null, salaTanquePrincipal);
 
-        currentRoom = outside;  // start game outside
+        currentRoom = salaInicial;  // start game outside
     }
 
     /**
@@ -81,7 +83,7 @@ public class Game
         System.out.println("World of Zuul is a new, incredibly boring adventure game.");
         System.out.println("Type 'help' if you need help.");
         System.out.println();
-        System.out.println("You are " + currentRoom.getDescription());
+        System.out.println("Te encuentras en una sala " + currentRoom.getDescription());
         System.out.print("Exits: ");
         if(currentRoom.northExit != null) {
             System.out.print("north ");
@@ -176,7 +178,7 @@ public class Game
         }
         else {
             currentRoom = nextRoom;
-            System.out.println("You are " + currentRoom.getDescription());
+            System.out.println("Te encuentras en una sala  " + currentRoom.getDescription());
             System.out.print("Exits: ");
             if(currentRoom.northExit != null) {
                 System.out.print("north ");
