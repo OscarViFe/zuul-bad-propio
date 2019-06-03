@@ -34,7 +34,7 @@ public class Game
      */
     private void createRooms()
     {
-        Room salaInicial, salaMaterialLaboratorio, salaTanquePrincipal, salaOrdenadores, salaContencionPequeña;
+        Room salaInicial, salaMaterialLaboratorio, salaTanquePrincipal, salaOrdenadores, salaContencionPequena;
 
         // create the rooms
         salaInicial = new Room("completamente vacia, en silencio, lo unico que ves es una luz de emergencia indicando que algo ha sucedido");
@@ -43,14 +43,14 @@ public class Game
         salaTanquePrincipal = new Room("con un tanque enorme roto cuyos cristales de gran grosor rotos estan esparcidos por el suelo ");
         salaOrdenadores = new Room("llena de ordenadores, uno de ellos esta encendido y pone" + 
             " 'Dia 42: Esto esta fuera del limite de nuestra comprension, vamos a morir todos'");
-        salaContencionPequeña = new Room("amplia con tanques de contencion del tamaño de una persona abiertos sin visibilidad de haber sido forzados");
+        salaContencionPequena = new Room("amplia con tanques de contencion del tamaï¿½o de una persona abiertos sin visibilidad de haber sido forzados");
 
         // initialise room exits
         salaInicial.setExits(salaMaterialLaboratorio, salaOrdenadores, null, null, null);
         salaMaterialLaboratorio.setExits(null, salaTanquePrincipal, salaInicial, null, salaOrdenadores);
-        salaTanquePrincipal.setExits(null, salaContencionPequeña, salaOrdenadores, salaMaterialLaboratorio, null);
+        salaTanquePrincipal.setExits(null, salaContencionPequena, salaOrdenadores, salaMaterialLaboratorio, null);
         salaOrdenadores.setExits(salaTanquePrincipal, salaInicial, null, null, null);
-        salaContencionPequeña.setExits(null, null, null, salaTanquePrincipal, null);
+        salaContencionPequena.setExits(null, null, null, salaTanquePrincipal, null);
 
         currentRoom = salaInicial;  // start game outside
     }
@@ -146,22 +146,7 @@ public class Game
         String direction = command.getSecondWord();
 
         // Try to leave current room.
-        Room nextRoom = null;
-        if(direction.equals("north")) {
-            nextRoom = currentRoom.northExit;
-        }
-        if(direction.equals("east")) {
-            nextRoom = currentRoom.eastExit;
-        }
-        if(direction.equals("south")) {
-            nextRoom = currentRoom.southExit;
-        }
-        if(direction.equals("west")) {
-            nextRoom = currentRoom.westExit;
-        }
-        if(direction.equals("southEast")) {
-            nextRoom = currentRoom.southEastExit;
-        }
+        Room nextRoom = currentRoom.getExit(direction);
 
         if (nextRoom == null) {
             System.out.println("There is no door!");
@@ -171,7 +156,7 @@ public class Game
             printLocationInfo();
         }
     }
-
+    
     /** 
      * "Quit" was entered. Check the rest of the command to see
      * whether we really quit the game.
@@ -193,22 +178,7 @@ public class Game
      */
     private void printLocationInfo(){
         System.out.println("Te encuentras en una sala  " + currentRoom.getDescription());
-        System.out.print("Exits: ");
-        if(currentRoom.northExit != null) {
-            System.out.print("north ");
-        }
-        if(currentRoom.eastExit != null) {
-            System.out.print("east ");
-        }
-        if(currentRoom.southExit != null) {
-            System.out.print("south ");
-        }
-        if(currentRoom.westExit != null) {
-            System.out.print("west ");
-        }
-        if(currentRoom.southEastExit != null) {
-            System.out.print("southEast ");
-        }
+        System.out.print(currentRoom.getExitString());
         System.out.println();
     }
 }
