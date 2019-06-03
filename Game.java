@@ -46,11 +46,11 @@ public class Game
         salaContencionPequena = new Room("amplia con tanques de contencion del tama�o de una persona abiertos sin visibilidad de haber sido forzados");
 
         // initialise room exits
-        salaInicial.setExits(salaMaterialLaboratorio, salaOrdenadores, null, null, null);
-        salaMaterialLaboratorio.setExits(null, salaTanquePrincipal, salaInicial, null, salaOrdenadores);
-        salaTanquePrincipal.setExits(null, salaContencionPequena, salaOrdenadores, salaMaterialLaboratorio, null);
-        salaOrdenadores.setExits(salaTanquePrincipal, salaInicial, null, null, null);
-        salaContencionPequena.setExits(null, null, null, salaTanquePrincipal, null);
+        salaInicial.setExits(salaMaterialLaboratorio, salaOrdenadores, null, null, null, salaTanquePrincipal);
+        salaMaterialLaboratorio.setExits(null, salaTanquePrincipal, salaInicial, null, salaOrdenadores, null);
+        salaTanquePrincipal.setExits(null, salaContencionPequena, salaOrdenadores, salaMaterialLaboratorio, null, null);
+        salaOrdenadores.setExits(salaTanquePrincipal, salaInicial, null, null, null, null);
+        salaContencionPequena.setExits(null, null, null, salaTanquePrincipal, null, null);
 
         currentRoom = salaInicial;  // start game outside
     }
