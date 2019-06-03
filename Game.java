@@ -46,11 +46,11 @@ public class Game
         salaContencionPequeña = new Room("amplia con tanques de contencion del tamaño de una persona abiertos sin visibilidad de haber sido forzados");
 
         // initialise room exits
-        salaInicial.setExits(salaMaterialLaboratorio, salaOrdenadores, null, null);
-        salaMaterialLaboratorio.setExits(null, salaTanquePrincipal, salaInicial, null);
-        salaTanquePrincipal.setExits(null, salaContencionPequeña, salaOrdenadores, salaMaterialLaboratorio);
-        salaOrdenadores.setExits(salaTanquePrincipal, salaInicial, null, null);
-        salaContencionPequeña.setExits(null, null, null, salaTanquePrincipal);
+        salaInicial.setExits(salaMaterialLaboratorio, salaOrdenadores, null, null, null);
+        salaMaterialLaboratorio.setExits(null, salaTanquePrincipal, salaInicial, null, salaOrdenadores);
+        salaTanquePrincipal.setExits(null, salaContencionPequeña, salaOrdenadores, salaMaterialLaboratorio, null);
+        salaOrdenadores.setExits(salaTanquePrincipal, salaInicial, null, null, null);
+        salaContencionPequeña.setExits(null, null, null, salaTanquePrincipal, null);
 
         currentRoom = salaInicial;  // start game outside
     }
@@ -159,6 +159,9 @@ public class Game
         if(direction.equals("west")) {
             nextRoom = currentRoom.westExit;
         }
+        if(direction.equals("southEast")) {
+            nextRoom = currentRoom.southEastExit;
+        }
 
         if (nextRoom == null) {
             System.out.println("There is no door!");
@@ -202,6 +205,9 @@ public class Game
         }
         if(currentRoom.westExit != null) {
             System.out.print("west ");
+        }
+        if(currentRoom.southEastExit != null) {
+            System.out.print("southEast ");
         }
         System.out.println();
     }
