@@ -45,15 +45,29 @@ public class Game
             " 'Dia 42: Esto esta fuera del limite de nuestra comprension, vamos a morir todos'");
         salaContencionPequena = new Room("amplia con tanques de contencion del tama�o de una persona abiertos sin visibilidad de haber sido forzados");
 
-        // initialise room exits
-        salaInicial.setExits(salaMaterialLaboratorio, salaOrdenadores, null, null, null, salaTanquePrincipal);
-        salaMaterialLaboratorio.setExits(null, salaTanquePrincipal, salaInicial, null, salaOrdenadores, null);
-        salaTanquePrincipal.setExits(null, salaContencionPequena, salaOrdenadores, salaMaterialLaboratorio, null, null);
-        salaOrdenadores.setExits(salaTanquePrincipal, salaInicial, null, null, null, null);
-        salaContencionPequena.setExits(null, null, null, salaTanquePrincipal, null, null);
-
+        // initialise room exits (Room north, Room east, Room south, Room west, Room southeast, Room northEast) 
+        //Puertas salaInicial
+        salaInicial.addRoom("north", salaMaterialLaboratorio);
+        salaInicial.addRoom("east", salaTanquePrincipal);
+        salaInicial.addRoom("northEast", salaTanquePrincipal);
+        //Puertas salaMaterialLaboratorio
+        salaMaterialLaboratorio.addRoom("east", salaTanquePrincipal);
+        salaMaterialLaboratorio.addRoom("south", salaInicial);
+        salaMaterialLaboratorio.addRoom("southeast", salaOrdenadores);
+        //Puertas salaTanquePrincipal
+        salaTanquePrincipal.addRoom("east", salaContencionPequena);
+        salaTanquePrincipal.addRoom("south", salaOrdenadores);
+        salaTanquePrincipal.addRoom("west", salaMaterialLaboratorio);
+        salaTanquePrincipal.addRoom("southwest", salaInicial);
+        //Puertas salaOrdenadores
+        salaOrdenadores.addRoom("north", salaTanquePrincipal);
+        salaOrdenadores.addRoom("west", salaInicial);
+        //Puertas salaContencionPequena
+        salaContencionPequena.addRoom("west", salaTanquePrincipal);
+        
         currentRoom = salaInicial;  // start game outside
     }
+    
 
     /**
      *  Main play routine.  Loops until end of play.

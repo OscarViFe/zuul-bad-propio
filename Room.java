@@ -1,4 +1,5 @@
 import java.util.HashMap;
+import java.util.Set;
 
 /**
  * Class Room - a room in an adventure game.
@@ -32,27 +33,13 @@ public class Room
     }
 
     /**
-     * Define the exits of this room.  Every direction either leads
-     * to another room or is null (no exit there).
-     * @param north The north exit.
-     * @param east The east east.
-     * @param south The south exit.
-     * @param west The west exit.
+     * Metodo para introducir las puertas y posiciones de las mismas dentro de la habitacion.
+     * @param direccion La direccion en la que esta la puerta.
+     * @param habitacion La habitacion con la que conecta esa puerta.
      */
-    public void setExits(Room north, Room east, Room south, Room west, Room southeast, Room northEast) 
+    public void addRoom(String direccion, Room habitacion) 
     {
-        if(north != null)
-            habitaciones.put("north", north);
-        if(east != null)
-            habitaciones.put("east", east);
-        if(south != null)
-            habitaciones.put("south", south);
-        if(west != null)
-            habitaciones.put("west", west);
-        if(southeast != null)
-            habitaciones.put("southeast", southeast);
-        if(northEast != null)
-            habitaciones.put("northEast", northEast);
+        habitaciones.put(direccion, habitacion);
     }
 
     /**
@@ -80,23 +67,9 @@ public class Room
      */
     public String getExitString(){
         String salidas = "Exits: ";
-        if(habitaciones.get("north") != null) {
-            salidas += "north ";
-        }
-        if(habitaciones.get("east") != null) {
-            salidas += "east ";
-        }
-        if(habitaciones.get("south") != null) {
-            salidas += "south ";
-        }
-        if(habitaciones.get("west") != null) {
-            salidas += "west ";
-        }
-        if(habitaciones.get("southEast") != null) {
-            salidas += "southEast ";
-        }
-        if(habitaciones.get("northEast") != null){
-            salidas += "northEast ";
+        Set<String> puertas = habitaciones.keySet();
+        for(String puerta: puertas){
+            salidas += puerta + " ";
         }
         return salidas;
     }
