@@ -62,11 +62,12 @@ public class Parser
             return new Command(null, word2); 
         }
     }
-    
+
     /**
      * Nos permite mostrar por pantalla todos los comandos disponibles
+     * @return Nos devuelve el metodo showAll de la clase commnads
      */
-    public void showCommands() {	
-	commands.showAll();
-}
+    public String showCommands() {	
+        return commands.showAll();
+    }
 }
