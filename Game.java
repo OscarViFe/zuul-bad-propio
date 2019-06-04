@@ -64,10 +64,9 @@ public class Game
         salaOrdenadores.addExit("west", salaInicial);
         //Puertas salaContencionPequena
         salaContencionPequena.addExit("west", salaTanquePrincipal);
-        
+
         currentRoom = salaInicial;  // start game outside
     }
-    
 
     /**
      *  Main play routine.  Loops until end of play.
@@ -125,6 +124,9 @@ public class Game
         else if (commandWord.equals("quit")) {
             wantToQuit = quit(command);
         }
+        else if(commandWord.equals("look")){
+            look();
+        }
 
         return wantToQuit;
     }
@@ -142,7 +144,7 @@ public class Game
         System.out.println("around at the university.");
         System.out.println();
         System.out.println("Your command words are:");
-        System.out.println("   go quit help");
+        System.out.println("   go quit help look");
     }
 
     /** 
@@ -170,7 +172,7 @@ public class Game
             printLocationInfo();
         }
     }
-    
+
     /** 
      * "Quit" was entered. Check the rest of the command to see
      * whether we really quit the game.
@@ -186,11 +188,19 @@ public class Game
             return true;  // signal that we want to quit
         }
     }
-    
+
     /**
      * Nos muestra los datos de la sala actual y las salas a las que podemos acceder desde la actual
      */
     private void printLocationInfo(){
+        System.out.println(currentRoom.getLongDescription());
+        System.out.println();
+    }
+
+    /**
+     * Permite volver a mostrar la descripcion y las salidas de la sala actual
+     */
+    private void look() {   
         System.out.println(currentRoom.getLongDescription());
         System.out.println();
     }
