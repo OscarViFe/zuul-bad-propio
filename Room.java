@@ -37,7 +37,7 @@ public class Room
      * @param direccion La direccion en la que esta la puerta.
      * @param habitacion La habitacion con la que conecta esa puerta.
      */
-    public void addRoom(String direccion, Room habitacion) 
+    public void addExit(String direccion, Room habitacion) 
     {
         habitaciones.put(direccion, habitacion);
     }
