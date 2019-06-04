@@ -47,23 +47,23 @@ public class Game
 
         // initialise room exits (Room north, Room east, Room south, Room west, Room southeast, Room northEast) 
         //Puertas salaInicial
-        salaInicial.addRoom("north", salaMaterialLaboratorio);
-        salaInicial.addRoom("east", salaTanquePrincipal);
-        salaInicial.addRoom("northEast", salaTanquePrincipal);
+        salaInicial.addExit("north", salaMaterialLaboratorio);
+        salaInicial.addExit("east", salaTanquePrincipal);
+        salaInicial.addExit("northEast", salaTanquePrincipal);
         //Puertas salaMaterialLaboratorio
-        salaMaterialLaboratorio.addRoom("east", salaTanquePrincipal);
-        salaMaterialLaboratorio.addRoom("south", salaInicial);
-        salaMaterialLaboratorio.addRoom("southeast", salaOrdenadores);
+        salaMaterialLaboratorio.addExit("east", salaTanquePrincipal);
+        salaMaterialLaboratorio.addExit("south", salaInicial);
+        salaMaterialLaboratorio.addExit("southeast", salaOrdenadores);
         //Puertas salaTanquePrincipal
-        salaTanquePrincipal.addRoom("east", salaContencionPequena);
-        salaTanquePrincipal.addRoom("south", salaOrdenadores);
-        salaTanquePrincipal.addRoom("west", salaMaterialLaboratorio);
-        salaTanquePrincipal.addRoom("southwest", salaInicial);
+        salaTanquePrincipal.addExit("east", salaContencionPequena);
+        salaTanquePrincipal.addExit("south", salaOrdenadores);
+        salaTanquePrincipal.addExit("west", salaMaterialLaboratorio);
+        salaTanquePrincipal.addExit("southwest", salaInicial);
         //Puertas salaOrdenadores
-        salaOrdenadores.addRoom("north", salaTanquePrincipal);
-        salaOrdenadores.addRoom("west", salaInicial);
+        salaOrdenadores.addExit("north", salaTanquePrincipal);
+        salaOrdenadores.addExit("west", salaInicial);
         //Puertas salaContencionPequena
-        salaContencionPequena.addRoom("west", salaTanquePrincipal);
+        salaContencionPequena.addExit("west", salaTanquePrincipal);
         
         currentRoom = salaInicial;  // start game outside
     }
@@ -191,8 +191,7 @@ public class Game
      * Nos muestra los datos de la sala actual y las salas a las que podemos acceder desde la actual
      */
     private void printLocationInfo(){
-        System.out.println("Te encuentras en una sala  " + currentRoom.getDescription());
-        System.out.print(currentRoom.getExitString());
+        System.out.println(currentRoom.getLongDescription());
         System.out.println();
     }
 }

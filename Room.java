@@ -74,4 +74,15 @@ public class Room
         return salidas;
     }
 
+    /**
+     * Devuelve un texto con la descripcion larga de la habitacion del tipo:
+     *     You are in the 'name of room'
+     *     Exits: north west southwest
+     * @return Una descripcion de la habitacion incluyendo sus salidas
+     */
+    public String getLongDescription(){
+        String texto = "Estas en un habitacion " + description + "\n" + getExitString();
+        return texto;
+    }
+
 }
