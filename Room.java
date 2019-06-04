@@ -88,7 +88,7 @@ public class Room
         if(!objetos.isEmpty()){
             texto += "En esta habitacion hay:";
             for(Item objeto : objetos){
-                 texto += " " + objeto.toString() + ",";
+                texto += " " + objeto.toString() + ",";
             }
             texto = texto.substring(0, texto.length() - 1);
         }
@@ -106,5 +106,4 @@ public class Room
     public void addItem(Item objeto){
         objetos.add(objeto);
     }
-
 }

@@ -19,6 +19,7 @@ public class Game
 {
     private Parser parser;
     private Room currentRoom;
+    private Room[] habitacionesPasadas;
 
     /**
      * Create the game and initialise its internal map.
@@ -27,6 +28,7 @@ public class Game
     {
         createRooms();
         parser = new Parser();
+        habitacionesPasadas = new Room[2];
     }
 
     /**
@@ -35,11 +37,11 @@ public class Game
     private void createRooms()
     {
         Room salaInicial, salaMaterialLaboratorio, salaTanquePrincipal, salaOrdenadores, salaContencionPequena;
-        
+
         //Objeto para la sala del tanque principal que consistira en una escama rosada de 5g
         Item objeto1 = new Item("una escama rosada", 5);
         Item objeto2 = new Item("un diario de investigacion", 20);
-        
+
         // create the rooms
         salaInicial = new Room("completamente vacia, en silencio, lo unico que ves es una luz de emergencia indicando que algo ha sucedido");
         salaMaterialLaboratorio = new Room("con material de laboratorio con cristales rotos por todas " + 
@@ -48,11 +50,11 @@ public class Game
         salaOrdenadores = new Room("llena de ordenadores, uno de ellos esta encendido y pone" + 
             " 'Dia 42: Esto esta fuera del limite de nuestra comprension, vamos a morir todos'");
         salaContencionPequena = new Room("amplia con tanques de contencion del tamaï¿½o de una persona abiertos sin visibilidad de haber sido forzados");
-        
+
         //Add the created object
         salaTanquePrincipal.addItem(objeto1);
         salaTanquePrincipal.addItem(objeto2);
-        
+
         // initialise room exits (Room north, Room east, Room south, Room west, Room southeast, Room northEast) 
         //Puertas salaInicial
         salaInicial.addExit("north", salaMaterialLaboratorio);
@@ -138,6 +140,9 @@ public class Game
         else if(commandWord.equals("eat")){
             eat();
         }
+        else if(commandWord.equals("back")){
+            back();
+        }
 
         return wantToQuit;
     }
@@ -180,7 +185,9 @@ public class Game
             System.out.println("There is no door!");
         }
         else {
+            añadirHabitacionPasada(currentRoom);
             currentRoom = nextRoom;
+
             printLocationInfo();
         }
     }
@@ -223,5 +230,33 @@ public class Game
     private void eat() {   
         System.out.println("You have eaten now and you are not hungry any more");
         System.out.println();
+    }
+
+    private void añadirHabitacionPasada(Room habitacion){
+        habitacionesPasadas[0] = habitacionesPasadas[1];
+        habitacionesPasadas[1] = habitacion;
+    }
+
+    /**
+     * Permite volver a la habitacion anterior 
+     */
+    private void back() {
+        int contador = habitacionesPasadas.length - 1;
+        Room habitacionAnterior = null;
+        while(habitacionAnterior == null && contador >= 0){
+            if(habitacionesPasadas[contador] != null){
+                habitacionAnterior = habitacionesPasadas[contador];
+                habitacionesPasadas[contador] = null;
+            }
+            contador --;
+        }
+        if(habitacionAnterior != null){
+            currentRoom = habitacionAnterior;
+            printLocationInfo();
+        }
+        else{
+            System.out.println("No puedes retroceder, prueba con un go");
+            System.out.println();
+        }
     }
 }
