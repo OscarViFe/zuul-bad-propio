@@ -37,16 +37,22 @@ public class Game
         Room salaInicial, salaMaterialLaboratorio, salaTanquePrincipal, salaOrdenadores, salaContencionPequena;
         
         //Objeto para la sala del tanque principal que consistira en una escama rosada de 5g
-        Item objeto = new Item("una escama rosada", 5);
+        Item objeto1 = new Item("una escama rosada", 5);
+        Item objeto2 = new Item("un diario de investigacion", 20);
+        
         // create the rooms
-        salaInicial = new Room("completamente vacia, en silencio, lo unico que ves es una luz de emergencia indicando que algo ha sucedido", null);
+        salaInicial = new Room("completamente vacia, en silencio, lo unico que ves es una luz de emergencia indicando que algo ha sucedido");
         salaMaterialLaboratorio = new Room("con material de laboratorio con cristales rotos por todas " + 
-            "partes y unas muestras de color rosado en una estanteria de cristal", null);
-        salaTanquePrincipal = new Room("con un tanque enorme roto cuyos cristales de gran grosor rotos estan esparcidos por el suelo ", objeto);
+            "partes y unas muestras de color rosado en una estanteria de cristal");
+        salaTanquePrincipal = new Room("con un tanque enorme roto cuyos cristales de gran grosor rotos estan esparcidos por el suelo ");
         salaOrdenadores = new Room("llena de ordenadores, uno de ellos esta encendido y pone" + 
-            " 'Dia 42: Esto esta fuera del limite de nuestra comprension, vamos a morir todos'", null);
-        salaContencionPequena = new Room("amplia con tanques de contencion del tama�o de una persona abiertos sin visibilidad de haber sido forzados", null);
-
+            " 'Dia 42: Esto esta fuera del limite de nuestra comprension, vamos a morir todos'");
+        salaContencionPequena = new Room("amplia con tanques de contencion del tama�o de una persona abiertos sin visibilidad de haber sido forzados");
+        
+        //Add the created object
+        salaTanquePrincipal.addItem(objeto1);
+        salaTanquePrincipal.addItem(objeto2);
+        
         // initialise room exits (Room north, Room east, Room south, Room west, Room southeast, Room northEast) 
         //Puertas salaInicial
         salaInicial.addExit("north", salaMaterialLaboratorio);

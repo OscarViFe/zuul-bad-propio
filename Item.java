@@ -10,6 +10,6 @@ public class Item
     }
     
     public String toString(){
-        return descripcion + " de " + peso +  " gramos.";
+        return descripcion + " de " + peso +  " gramos";
     }
 }
