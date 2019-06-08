@@ -37,8 +37,9 @@ public class Game
         Room salaInicial, salaMaterialLaboratorio, salaTanquePrincipal, salaOrdenadores, salaContencionPequena;
 
         //Objeto para la sala del tanque principal que consistira en una escama rosada de 5g
-        Item objeto1 = new Item("escama", "una escama rosada", 5);
-        Item objeto2 = new Item("diario", "un diario de investigacion", 20);
+        Item objeto1 = new Item("escama", "una escama rosada", 5, true);
+        Item objeto2 = new Item("diario", "un diario de investigacion", 20, true);
+        Item objeto3 = new Item("piedra", "una piedra demasiado pesada", 200, false);
 
         // create the rooms
         salaInicial = new Room("completamente vacia, en silencio, lo unico que ves es una luz de emergencia indicando que algo ha sucedido");
@@ -52,6 +53,7 @@ public class Game
         //Add the created object
         salaTanquePrincipal.addItem(objeto1);
         salaTanquePrincipal.addItem(objeto2);
+        salaInicial.addItem(objeto3);
 
         // initialise room exits (Room north, Room east, Room south, Room west, Room southeast, Room northEast) 
         //Puertas salaInicial

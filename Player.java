@@ -79,9 +79,16 @@ public class Player{
             System.out.println();
         }
         else{
-            objetosJugador.add(objetoRecogido);
-            System.out.println("Has recogido " + objetoRecogido.toString());
-            System.out.println();
+            if(objetoRecogido.sePuedeCoger()){
+                objetosJugador.add(objetoRecogido);
+                System.out.println("Has recogido " + objetoRecogido.toString());
+                System.out.println();
+            }
+            else{
+                currentRoom.addItem(objetoRecogido);
+                System.out.println("No puedes coger ese objeto");
+                System.out.println();
+            }
         }
     }
 
