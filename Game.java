@@ -1,4 +1,6 @@
 import java.util.Stack;
+import java.util.ArrayList;
+
 /**
  *  This class is the main class of the "World of Zuul" application. 
  *  "World of Zuul" is a very simple, text based adventure game.  Users 
@@ -21,6 +23,8 @@ public class Game
     private Parser parser;
     private Room currentRoom;
     private Stack<Room> habitacionesPasadas;
+    private ArrayList<Item> objetosJugador;
+    private static final int PESO_MAXIMO_JUGADOR = 20;
 
     /**
      * Create the game and initialise its internal map.
@@ -30,6 +34,7 @@ public class Game
         createRooms();
         parser = new Parser();
         habitacionesPasadas = new Stack<Room>();
+        objetosJugador = new ArrayList<Item>();
     }
 
     /**
@@ -144,6 +149,15 @@ public class Game
         else if(commandWord.equals("back")){
             back();
         }
+        else if(commandWord.equals("take")){
+            take(command);
+        }
+        else if(commandWord.equals("drop")){
+            drop(command);
+        }
+        else if(commandWord.equals("items")){
+            items();
+        }
 
         return wantToQuit;
     }
@@ -249,5 +263,99 @@ public class Game
             System.out.println("No puedes retroceder, ya estas en el inicio, prueba con un go");
             System.out.println();
         }
+    }
+
+    /**
+     * El usuario coge el objeto y se elimina de la sala
+     * @param Command comando para saber el dato del objeto a coger
+     */
+    private void take(Command command){
+        if(!command.hasSecondWord()) {
+            // if there is no second word, we don't know where to go...
+            System.out.println("Take what?");
+            return;
+        }
+
+        Item objetoRecogido = currentRoom.cogerObjeto(command.getSecondWord());
+        if(objetoRecogido == null){
+            System.out.println("El objeto que buscas no existe");
+            System.out.println();
+        }
+        else{
+            if(objetoRecogido.getPeso() <= getPesoRestantePermitido()){
+                objetosJugador.add(objetoRecogido);
+                System.out.println("Has recogido " + objetoRecogido.toString());
+                System.out.println();
+            }
+            else{
+                System.out.println("El objeto es demasiado pesado");
+                System.out.println();
+                currentRoom.addItem(objetoRecogido);
+            }
+        }
+    }
+
+    /**
+     * Añade el objeto a la sala y lo elimina del inventario del usuario
+     * @param Command comando para saber el dato del objeto a soltar
+     */
+    private void drop(Command command){
+        if(!command.hasSecondWord()) {
+            // if there is no second word, we don't know where to go...
+            System.out.println("Drop what?");
+            return;
+        }
+        else{
+            int contador = 0;
+            boolean encontrado = false;
+            while(!encontrado && contador < objetosJugador.size()){
+                if(objetosJugador.get(contador).getDescripcion().contains(command.getSecondWord())){
+                    encontrado = true;
+                    contador --;
+                }
+                contador ++;
+            }
+            if(!encontrado){
+                System.out.println("No tienes ese objeto en el inventario");
+                System.out.println();
+            }
+            else{
+                System.out.println("Has soltado " + objetosJugador.get(contador).toString());
+                System.out.println();
+                currentRoom.addItem(objetosJugador.get(contador));
+                objetosJugador.remove(contador);
+            }
+        }
+    }
+
+    /**
+     * Muestra los objetos que tiene el usuario en el inventario
+     */
+    private void items(){
+        String texto = "";
+        if(!objetosJugador.isEmpty()){
+            texto += "Tienes estos objetos:";
+            for(Item objeto : objetosJugador){
+                texto += " " + objeto.toString() + ",";
+            }
+            texto = texto.substring(0, texto.length() - 1);
+        }
+        else{
+            texto += "No tienes ningun objeto.";
+        }
+        texto += "\n";
+        System.out.println(texto);
+    }   
+
+    /**
+     * Devuelve la cantidad de peso en gramos que aun puede transportar el jugador
+     * @return int Peso restante
+     */
+    private int getPesoRestantePermitido(){
+        int pesoRestante = PESO_MAXIMO_JUGADOR;
+        for(Item objeto : objetosJugador){
+            pesoRestante -= objeto.getPeso();
+        }
+        return pesoRestante;
     }
 }
