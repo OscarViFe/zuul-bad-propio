@@ -106,4 +106,21 @@ public class Room
     public void addItem(Item objeto){
         objetos.add(objeto);
     }
+    
+    /**
+     * Da al usuario el objeto y lo elimina de la sala
+     * @param String texto contenido dentro de la descripcion del objeto
+     */
+    public Item cogerObjeto(String objetoACoger){
+        Item objetoADevolver = null;
+        int contador = 0;
+        while(objetoADevolver == null && contador < objetos.size()){
+            if(objetos.get(contador).getId().equals(objetoACoger)){
+                objetoADevolver = objetos.get(contador);
+                objetos.remove(contador);
+            }
+            contador ++;
+        }
+        return objetoADevolver;
+    }
 }
