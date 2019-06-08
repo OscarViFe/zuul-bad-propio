@@ -6,7 +6,6 @@ public class Player{
     private Room currentRoom;
     private Stack<Room> habitacionesPasadas;
     private ArrayList<Item> objetosJugador;
-    private static final int PESO_MAXIMO_JUGADOR = 20;
 
     public Player(Room habitacionInicial){
         currentRoom = habitacionInicial;
@@ -80,29 +79,10 @@ public class Player{
             System.out.println();
         }
         else{
-            if(objetoRecogido.getPeso() <= getPesoRestantePermitido()){
-                objetosJugador.add(objetoRecogido);
-                System.out.println("Has recogido " + objetoRecogido.toString());
-                System.out.println();
-            }
-            else{
-                System.out.println("El objeto es demasiado pesado");
-                System.out.println();
-                currentRoom.addItem(objetoRecogido);
-            }
+            objetosJugador.add(objetoRecogido);
+            System.out.println("Has recogido " + objetoRecogido.toString());
+            System.out.println();
         }
-    }
-
-    /**
-     * Devuelve la cantidad de peso en gramos que aun puede transportar el jugador
-     * @return int Peso restante
-     */
-    private int getPesoRestantePermitido(){
-        int pesoRestante = PESO_MAXIMO_JUGADOR;
-        for(Item objeto : objetosJugador){
-            pesoRestante -= objeto.getPeso();
-        }
-        return pesoRestante;
     }
 
     /**
