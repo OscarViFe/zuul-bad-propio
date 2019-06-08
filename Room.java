@@ -115,7 +115,7 @@ public class Room
         Item objetoADevolver = null;
         int contador = 0;
         while(objetoADevolver == null && contador < objetos.size()){
-            if(objetos.get(contador).getDescripcion().contains(objetoACoger)){
+            if(objetos.get(contador).getId().equals(objetoACoger)){
                 objetoADevolver = objetos.get(contador);
                 objetos.remove(contador);
             }

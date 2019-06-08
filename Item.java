@@ -1,6 +1,7 @@
 
 public class Item
 {
+    private String id;
     private String descripcion;
     private int peso;
     
@@ -8,7 +9,8 @@ public class Item
      * @param String Descripcion del objeto
      * @param int Peso del objeto
      */
-    public Item(String descripcion, int peso){
+    public Item(String id, String descripcion, int peso){
+        this.id = id;
         this. descripcion = descripcion;
         this.peso = peso;
     }
@@ -17,7 +19,7 @@ public class Item
      * @return String Datos del objeto
      */
     public String toString(){
-        return descripcion + " de " + peso +  " gramos";
+        return descripcion + " de " + peso +  " gramos" + "(" + id + ")";
     }
     
     /**
@@ -32,5 +34,12 @@ public class Item
      */
     public int getPeso(){
         return peso;
+    }
+    
+    /**
+     * @return  el id del objeto
+     */
+    public String getId(){
+        return id;
     }
 }
