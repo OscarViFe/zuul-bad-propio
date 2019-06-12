@@ -7,11 +7,13 @@ public class Player{
     private Stack<Room> habitacionesPasadas;
     private ArrayList<Item> objetosJugador;
     private static final int PESO_MAXIMO = 20;
+    private boolean jugadorPokemon;
 
     public Player(Room habitacionInicial){
         currentRoom = habitacionInicial;
         habitacionesPasadas = new Stack<Room>();
         objetosJugador = new ArrayList<Item>();
+        jugadorPokemon = false;
     }
 
     /** 
@@ -81,7 +83,7 @@ public class Player{
         }
         else{
             if(objetoRecogido.sePuedeCoger()){
-                if(objetoRecogido.getPeso() < pesoMaximoDisponible()){
+                if(objetoRecogido.getPeso() <= pesoMaximoDisponible()){
                     objetosJugador.add(objetoRecogido);
                     System.out.println("Has recogido " + objetoRecogido.toString());
                     System.out.println();
@@ -160,11 +162,91 @@ public class Player{
         System.out.println(texto);
     }   
 
+    /**
+     * Calcula el peso maximo restante que puedes coger
+     * @return int peso disponible
+     */
     private int pesoMaximoDisponible(){
         int disponible = PESO_MAXIMO;
         for(Item objeto : objetosJugador){
             disponible -= objeto.getPeso();
         }
         return disponible;
+    }
+
+    /**
+     * Permite mezclar objetos
+     * @return Boolean si la mezcla es la adecuada
+     */
+    public boolean mezclar(Command command){
+        String[] objetos = command.getSecondWord().split("-");
+        boolean mezclaExitosa = true;
+        //Comprueba que los objetos a mezclar estan en el inventario del jugador
+        for(int i = 0 ; i < objetos.length; i++){
+            boolean objetoEncontrado = false;
+            for(Item objetoBolsa : objetosJugador){
+                if(objetos[i].contains(objetoBolsa.getId())){
+                    objetoEncontrado = true;
+                }
+            }
+            if(!objetoEncontrado){
+                mezclaExitosa = false;
+            }
+        }
+
+        if(mezclaExitosa){
+            //Verifica que los objetos a mezclar son los adecuados
+            for(int i = 0 ; i < objetos.length; i++){
+                if(!objetos[i].contains("escama") && !objetos[i].contains("pocion")){
+                    mezclaExitosa = false;
+                }
+            }
+            if(mezclaExitosa){
+                //Como los objetos a mezclar son los adecuados hay que eliminarlos del inventario del jugador
+                for(int i = 0 ; i < objetosJugador.size(); i++){
+                    if(objetosJugador.get(i).getId().contains("escama") || objetosJugador.get(i).getId().contains("pocion")){
+                        objetosJugador.remove(i);
+                        i--;
+                    }
+                }
+            }
+            else{
+                System.out.println("No ha pasado nada");
+                System.out.println(); 
+            }
+        }
+        else{
+            System.out.println("No tienes todos los objetos que dices");
+            System.out.println(); 
+        }
+
+        return mezclaExitosa;
+    }
+
+    /**
+     * Hace que el jugador se vuelva un pokemon
+     */
+    public void hacerPokemon(){
+        jugadorPokemon = true;
+    }
+
+    /**
+     * Devuelve si el jugador es un pokemon
+     * @return Boolean si es pokemon
+     */
+    public boolean esPokemon(){
+        return jugadorPokemon;
+    }
+
+    /**
+     * Permite saber si en esa habitacion esta el objeto piedra
+     * @return Boolean si existe piedra en la habitacon
+     */
+    public boolean habitacionConPiedra(){
+        boolean hayPiedra = false;
+        if(currentRoom.cogerObjeto("piedra") != null){
+            hayPiedra = true;
+        }
+        return hayPiedra;
     }
 }

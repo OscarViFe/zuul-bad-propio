@@ -67,7 +67,7 @@ public class Parser
      * Nos permite mostrar por pantalla todos los comandos disponibles
      * @return Nos devuelve el metodo showAll de la clase commnads
      */
-    public String showCommands() {	
+    public String showCommands() {  
         return commands.showAll();
     }
 }
