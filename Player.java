@@ -94,7 +94,7 @@ public class Player{
 
     /**
      * Añade el objeto a la sala y lo elimina del inventario del usuario
-     * @param Command comando para saber el dato del objeto a soltar
+     * @param Command comando para saber el dato del objeto a soltar cogiendo la segunda parte del comando
      */
     public void drop(Command command){
         if(!command.hasSecondWord()) {
