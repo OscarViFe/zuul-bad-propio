@@ -64,7 +64,7 @@ public class Player{
 
     /**
      * El usuario coge el objeto y se elimina de la sala
-     * @param Command comando para saber el dato del objeto a coger
+     * @param Command comando para saber el dato del objeto a coger cogiendo la segunda parte del comando como nombre
      */
     public void take(Command command){
         if(!command.hasSecondWord()) {
@@ -94,7 +94,7 @@ public class Player{
 
     /**
      * Añade el objeto a la sala y lo elimina del inventario del usuario
-     * @param Command comando para saber el dato del objeto a soltar cogiendo la segunda parte del comando
+     * @param Command comando para saber el dato del objeto a soltar cogiendo la segunda parte del comando como nombre
      */
     public void drop(Command command){
         if(!command.hasSecondWord()) {
