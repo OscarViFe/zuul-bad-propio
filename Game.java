@@ -40,6 +40,7 @@ public class Game
         Item objeto1 = new Item("escama", "una escama rosada", 5, true);
         Item objeto2 = new Item("diario", "un diario de investigacion", 20, true);
         Item objeto3 = new Item("piedra", "una piedra demasiado pesada", 200, false);
+        Item objeto4 = new Item("pocion", "una pocion burbujeante", 10, true);
 
         // create the rooms
         salaInicial = new Room("completamente vacia, en silencio, lo unico que ves es una luz de emergencia indicando que algo ha sucedido");
@@ -48,17 +49,18 @@ public class Game
         salaTanquePrincipal = new Room("con un tanque enorme roto cuyos cristales de gran grosor rotos estan esparcidos por el suelo ");
         salaOrdenadores = new Room("llena de ordenadores, uno de ellos esta encendido y pone" + 
             " 'Dia 42: Esto esta fuera del limite de nuestra comprension, vamos a morir todos'");
-        salaContencionPequena = new Room("amplia con tanques de contencion del tama�o de una persona abiertos sin visibilidad de haber sido forzados");
+        salaContencionPequena = new Room("amplia con tanques de contencion donde cabria una persona, abiertos sin visibilidad de haber sido forzados");
 
         //Add the created object
         salaTanquePrincipal.addItem(objeto1);
         salaTanquePrincipal.addItem(objeto2);
         salaInicial.addItem(objeto3);
+        salaMaterialLaboratorio.addItem(objeto4);
 
         // initialise room exits (Room north, Room east, Room south, Room west, Room southeast, Room northEast) 
         //Puertas salaInicial
         salaInicial.addExit("north", salaMaterialLaboratorio);
-        salaInicial.addExit("east", salaTanquePrincipal);
+        salaInicial.addExit("east", salaOrdenadores);
         salaInicial.addExit("northEast", salaTanquePrincipal);
         //Puertas salaMaterialLaboratorio
         salaMaterialLaboratorio.addExit("east", salaTanquePrincipal);
@@ -74,7 +76,7 @@ public class Game
         salaOrdenadores.addExit("west", salaInicial);
         //Puertas salaContencionPequena
         salaContencionPequena.addExit("west", salaTanquePrincipal);
-        
+
         return salaInicial;
     }
 
@@ -93,7 +95,7 @@ public class Game
             Command command = parser.getCommand();
             finished = processCommand(command);
         }
-        System.out.println("Thank you for playing.  Good bye.");
+        System.out.println("Gracias por jugar. Adios");
     }
 
     /**
@@ -145,13 +147,33 @@ public class Game
             jugador.back();
         }
         else if(commandWord.equals("take")){
-            jugador.take(command);
+            //Verifica si vas a coger la piedra que contiene la salida con las condiciones adecuadas, sino lo coge como un objeto normal
+            if(jugador.esPokemon() && command.getSecondWord().contains("piedra") && jugador.habitacionConPiedra()){
+                finalDelJuego();
+                wantToQuit = true;
+            }
+            else{
+                jugador.take(command);
+            }
         }
         else if(commandWord.equals("drop")){
             jugador.drop(command);
         }
         else if(commandWord.equals("items")){
             jugador.items();
+        }
+        else if(commandWord.equals("mezclar")){
+
+            if(command.getSecondWord().contains("-")){
+                boolean mezcladoExitoso = jugador.mezclar(command);
+                if(mezcladoExitoso){
+                    transformacion();
+                }
+            }
+            else{
+                System.out.println("El comando es mezclar objeto1-objeto2");
+                System.out.println();
+            }
         }
 
         return wantToQuit;
@@ -179,8 +201,7 @@ public class Game
      * whether we really quit the game.
      * @return true, if this command quits the game, false otherwise.
      */
-    private boolean quit(Command command) 
-    {
+    private boolean quit(Command command){
         if(command.hasSecondWord()) {
             System.out.println("Quit what?");
             return false;
@@ -188,5 +209,21 @@ public class Game
         else {
             return true;  // signal that we want to quit
         }
+    }
+
+    private void transformacion(){
+        System.out.println("El frasco donde has metido la casma empieza a temblar y lo sueltas");
+        System.out.println("Todo empieza a tembla y aparece Mewtwo");
+        System.out.println();
+        System.out.println("Mewtwo: Te ayudare a salir por devolverme a la vida");
+        System.out.println("Te ha transformado en un pokemon de cuatro brazos, deberias probar a levantar ahora la piedra");
+        System.out.println();
+        jugador.hacerPokemon();
+    }
+
+    private void finalDelJuego(){
+        System.out.println("Hay una escalera oculta debajo de la piedra");
+        System.out.println("Comienzas a bajar y lo ultimo que ves antes de ir a tu libertad es un pikachu con una gorra de detective");
+        System.out.println();
     }
 }
