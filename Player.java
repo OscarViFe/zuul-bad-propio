@@ -6,7 +6,7 @@ public class Player{
     private Room currentRoom;
     private Stack<Room> habitacionesPasadas;
     private ArrayList<Item> objetosJugador;
-    private static final int PESO_MAXIMO_JUGADOR = 20;
+    private static final int PESO_MAXIMO = 20;
 
     public Player(Room habitacionInicial){
         currentRoom = habitacionInicial;
@@ -65,7 +65,7 @@ public class Player{
 
     /**
      * El usuario coge el objeto y se elimina de la sala
-     * @param Command comando para saber el dato del objeto a coger
+     * @param Command comando para saber el dato del objeto a coger cogiendo la segunda parte del comando como nombre
      */
     public void take(Command command){
         if(!command.hasSecondWord()) {
@@ -80,34 +80,29 @@ public class Player{
             System.out.println();
         }
         else{
-            if(objetoRecogido.getPeso() <= getPesoRestantePermitido()){
-                objetosJugador.add(objetoRecogido);
-                System.out.println("Has recogido " + objetoRecogido.toString());
-                System.out.println();
+            if(objetoRecogido.sePuedeCoger()){
+                if(objetoRecogido.getPeso() < pesoMaximoDisponible()){
+                    objetosJugador.add(objetoRecogido);
+                    System.out.println("Has recogido " + objetoRecogido.toString());
+                    System.out.println();
+                }
+                else{
+                    currentRoom.addItem(objetoRecogido);
+                    System.out.println("No puedes coger ese objeto, es demasiado pesado");
+                    System.out.println();
+                }
             }
             else{
-                System.out.println("El objeto es demasiado pesado");
-                System.out.println();
                 currentRoom.addItem(objetoRecogido);
+                System.out.println("No puedes coger ese objeto");
+                System.out.println();
             }
         }
-    }
-
-    /**
-     * Devuelve la cantidad de peso en gramos que aun puede transportar el jugador
-     * @return int Peso restante
-     */
-    private int getPesoRestantePermitido(){
-        int pesoRestante = PESO_MAXIMO_JUGADOR;
-        for(Item objeto : objetosJugador){
-            pesoRestante -= objeto.getPeso();
-        }
-        return pesoRestante;
     }
 
     /**
      * Añade el objeto a la sala y lo elimina del inventario del usuario
-     * @param Command comando para saber el dato del objeto a soltar
+     * @param Command comando para saber el dato del objeto a soltar cogiendo la segunda parte del comando como nombre
      */
     public void drop(Command command){
         if(!command.hasSecondWord()) {
@@ -164,4 +159,12 @@ public class Player{
         texto += "\n";
         System.out.println(texto);
     }   
+
+    private int pesoMaximoDisponible(){
+        int disponible = PESO_MAXIMO;
+        for(Item objeto : objetosJugador){
+            disponible -= objeto.getPeso();
+        }
+        return disponible;
+    }
 }
