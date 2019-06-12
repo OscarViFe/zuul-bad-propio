@@ -6,6 +6,7 @@ public class Player{
     private Room currentRoom;
     private Stack<Room> habitacionesPasadas;
     private ArrayList<Item> objetosJugador;
+    private static final int PESO_MAXIMO = 20;
 
     public Player(Room habitacionInicial){
         currentRoom = habitacionInicial;
@@ -80,9 +81,16 @@ public class Player{
         }
         else{
             if(objetoRecogido.sePuedeCoger()){
-                objetosJugador.add(objetoRecogido);
-                System.out.println("Has recogido " + objetoRecogido.toString());
-                System.out.println();
+                if(objetoRecogido.getPeso() < pesoMaximoDisponible()){
+                    objetosJugador.add(objetoRecogido);
+                    System.out.println("Has recogido " + objetoRecogido.toString());
+                    System.out.println();
+                }
+                else{
+                    currentRoom.addItem(objetoRecogido);
+                    System.out.println("No puedes coger ese objeto, es demasiado pesado");
+                    System.out.println();
+                }
             }
             else{
                 currentRoom.addItem(objetoRecogido);
@@ -151,4 +159,12 @@ public class Player{
         texto += "\n";
         System.out.println(texto);
     }   
+
+    private int pesoMaximoDisponible(){
+        int disponible = PESO_MAXIMO;
+        for(Item objeto : objetosJugador){
+            disponible -= objeto.getPeso();
+        }
+        return disponible;
+    }
 }
