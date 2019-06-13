@@ -31,6 +31,7 @@ public class Game
 
     /**
      * Create all the rooms and link their exits together.
+     * @return Room sala inicial del juego
      */
     private Room createRooms()
     {
@@ -163,9 +164,10 @@ public class Game
             jugador.items();
         }
         else if(commandWord.equals("mezclar")){
-
+            //Verifica si el metodo mezclar se ha escrito correctamente, si es asi lo mezcla y sino indica la estructura correcta del comando para mezclar
             if(command.getSecondWord().contains("-")){
                 boolean mezcladoExitoso = jugador.mezclar(command);
+                //Si el resultado de la mezcla es exitoso el jugador se transformara 
                 if(mezcladoExitoso){
                     transformacion();
                 }
@@ -210,7 +212,10 @@ public class Game
             return true;  // signal that we want to quit
         }
     }
-
+    
+    /**
+     * Hace que el jugador se vuelva un pokemon y muestra por pantalla como ha sido el suceso
+     */
     private void transformacion(){
         System.out.println("El frasco donde has metido la casma empieza a temblar y lo sueltas");
         System.out.println("Todo empieza a tembla y aparece Mewtwo");
@@ -220,7 +225,10 @@ public class Game
         System.out.println();
         jugador.hacerPokemon();
     }
-
+    
+    /**
+     * Muestra por pantalla el ultimo suceso del juego
+     */
     private void finalDelJuego(){
         System.out.println("Hay una escalera oculta debajo de la piedra");
         System.out.println("Comienzas a bajar y lo ultimo que ves antes de ir a tu libertad es un pikachu con una gorra de detective");
